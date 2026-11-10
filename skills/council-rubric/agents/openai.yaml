@@ -1,0 +1,4 @@
+interface:
+  display_name: "Council Rubric"
+  short_description: "Define evidence-based rubrics and project acceptance gates"
+  default_prompt: "Use $council-rubric to define or assess a versioned project rubric with anchored scores, required gates, evidence, stopping rules and scoped rechecks; do not launch Council unless explicitly requested."
