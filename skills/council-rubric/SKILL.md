@@ -78,7 +78,12 @@ version the contract and settle its weights before recalculating.
 Choose project-specific target scores and floors; do not impose a universal
 "9 overall, none below 8" rule. Display at most one decimal unless measurement
 justifies more, but compare thresholds using unrounded values. Keep confidence
-and evidence limits separate from the quality score.
+and evidence limits separate from the quality score; 9/10 is not a calibrated
+90% correctness probability. Where available, check the evaluator against known
+good/bad examples, reference artifacts or historical defects, recording mistakes
+and remaining limits rather than inventing calibration. Consult
+[references/evidence-and-limits.md](references/evidence-and-limits.md) when choosing
+judge safeguards or explaining the research basis.
 
 ## 3. Define acceptance gates independently
 
@@ -143,10 +148,18 @@ Explain a material gap as demonstrated failure, missing proof or disputed
 interpretation; do not treat all three as the same problem. Identify the next
 bounded verification and owner when a gate remains pending.
 
+For candidate comparisons, freeze identity handling and presentation order before
+results. Mask provider/team labels where practical and authorized; counterbalance
+order when comparing several candidates. Record unavoidable exposure such as
+commit authorship, recognizable output and prior feedback. Do not alter artifacts
+to hide identity or claim fully blind judging from aliases alone. Treat these as
+bias safeguards, not proof of objectivity.
+
 For an explicit Council run, send every reviewer the same frozen rubric version,
-artifact manifest, evidence pack, scope, output template and budget. Require
-independent per-criterion scores, gate judgments and concrete objections. Record
-actual reviewers, models/harnesses and requested options as required by Council;
+artifact manifest, evidence pack, scope, output template and budget. Collect
+independent first-pass per-criterion scores, gate judgments and concrete objections
+before exposing other reviewers' conclusions. Record actual reviewers,
+models/harnesses and requested options as required by Council;
 report unavailable members rather than simulating consensus. Reconcile evidence,
 not personalities. Put scorecard references and stopping-rule results alongside
 Council's review summary; a scalar code-review score is not a replacement.
@@ -179,3 +192,5 @@ unproven; do not broaden "review complete" into "project ready".
 - [references/examples.md](references/examples.md): Consult synthetic CAD and
   software cases for delivery failures, unknowns and reopening behavior. Adapt
   their criteria to the current project rather than copying their targets.
+- [references/evidence-and-limits.md](references/evidence-and-limits.md): Primary
+  rubric/judge studies, bias safeguards and the limits of score-based claims.

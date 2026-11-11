@@ -25,6 +25,13 @@ and merge permissions separate from implementation authority. Preserve dirty
 files and existing sessions. Carry uncommitted inputs through an explicit bounded
 snapshot; do not pretend a new delegate checkout includes the parent's dirty work.
 
+Before launching, name the genuinely independent work, shared decisions and
+interfaces that must be frozen, verification path, and expected value after
+waiting/integration/repair. Do not manufacture decomposition for sequential work
+or when essential context cannot be shared safely. Report the lack of a useful
+split and recommend single-agent execution instead; any continued implementation
+still needs existing authority and must not be reported as completed Workshare.
+
 Use the smallest useful team by default: the active main agent plus one worker.
 Keep one cohesive initial assignment and at most one corrective worker handoff
 unless the user or parent workshop supplies another finite launch budget. Count
@@ -41,7 +48,10 @@ universal 9/10 finish line. Hand explicitly requested pre/post Council review to
 ## 2. Choose a configuration, not a permanent model hierarchy
 
 Read [references/routing-and-runtime.md](references/routing-and-runtime.md) before
-allocating models or selecting a delegation adapter. Select among these patterns:
+allocating models or selecting a delegation adapter. Use
+[references/evidence-and-limits.md](references/evidence-and-limits.md) to justify
+task fit and distinguish observed gains from an untested configuration. Select
+among these patterns:
 
 - **Balanced:** split independently implementable parts behind agreed interfaces.
   Keep the main agent coding while a worker owns a meaningful contribution.
@@ -159,9 +169,14 @@ Report actual models, harnesses and requested controls, task ownership, retained
 contributions, integrated revision, commands/exit statuses, missing evidence and
 budget use. Separate time to useful evidence from time to an accepted result;
 include waiting, handoff, rework and integration. Report token/cost data only when
-observed, distinguishing aggregate compute from elapsed time. Learn routing
-preferences from accepted work and repair burden, not raw tokens consumed. Keep
-sensitive logs local and summaries concise; do not publish conversations or
+observed, distinguishing aggregate compute from elapsed time. Declare whether a
+comparison concerns quality at fixed resources, time to a common acceptance bar,
+or useful delivery without a controlled-performance claim. Equal effort names or
+launch counts do not establish equal compute. Include a capable single-agent
+baseline when studying the value of coordination, or disclose its absence; repeat
+matched tasks before generalizing routing preferences. Learn from accepted work
+and repair burden, not raw tokens consumed. Keep sensitive logs local and summaries
+concise; do not publish conversations or
 project artifacts merely because the skill source repository is public.
 
 ## Resources
@@ -171,3 +186,5 @@ project artifacts merely because the skill source repository is public.
 - [assets/work-packet.md](assets/work-packet.md): a bounded worker contract.
 - [assets/team-result.md](assets/team-result.md): artifact/evidence handback and
   integrated-result record.
+- [references/evidence-and-limits.md](references/evidence-and-limits.md): Primary
+  research and practitioner reports, task-fit limits and measurement safeguards.

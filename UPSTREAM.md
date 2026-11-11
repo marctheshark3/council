@@ -25,6 +25,7 @@ without scope creep. The copyright and full MIT terms remain in
 | Harness and effort | Default to Pi, require authorization for another harness, resolve exact model/harness controls, explicitly request supported `xhigh` or disclose a `high` effort fallback, and record requested versus verified settings. |
 | Opt-in reasoning | GPT `token-max` pairs Pi and native Codex for the same model; reasoning ceilings and speed/service tiers are resolved separately. No literal token-budget guarantee. |
 | Rubric integration | Share one frozen contract, artifact snapshot, and evidence pack; retain per-reviewer scores, gate results, dissent, and scoped recheck accounting. |
+| Evidence and convergence | Preserve independent first passes, verify rather than vote away defects, track/deduplicate finding IDs, and focus subsequent review on deltas and affected dependencies. |
 
 ## Council Rubric
 
@@ -60,6 +61,37 @@ shared-resource conflicts, task states and deterministic boundaries inform these
 packages. The lesson and its illustrations are not redistributed, and its
 illustrative efficiency/activity figures are not claimed as measured results
 for this project. No A2A service, peer bus or durable engine is bundled.
+
+## Research basis and limits
+
+A targeted primary-source review on **2026-11-11** informed the follow-up. The
+sources support ingredients, not the exact composition or a measured gain from
+these instruction packages. They are linked with their relevant instructions so
+each independently installed skill retains the evidence and its limitations:
+
+| Package reference | Sources and what they inform |
+| --- | --- |
+| [Council evidence](skills/council/references/evidence-and-limits.md) | Theo's pinned instructions; ReConcile; Debate or Vote?; Voting or Consensus?; Anthropic's code-review account. Independent first passes, evidence-backed reconciliation and bounded convergence. |
+| [Rubric evidence](skills/council-rubric/references/evidence-and-limits.md) | G-Eval; Prometheus; Judging LLM-as-a-Judge. Structured criteria, reference cases, judge bias and the distinction between preference scores and correctness. |
+| [Workshare evidence](skills/workshare/references/evidence-and-limits.md) | Anthropic, Cursor and Cognition engineering reports; Scaling Agent Systems v3; MAST. Task fit, context/resource boundaries, verification and accepted-contribution measurement. |
+| [Workshop evidence](skills/council-workshop/references/evidence-and-limits.md) | CodeMonkeys; Large Language Monkeys; AFlow; Scaling Agent Systems v3; Anthropic's code-review account. Candidate generation versus selection, controlled comparison limits and integrated review. |
+
+Distinguish peer-reviewed benchmark results, preprints, practitioner instructions
+and observational vendor reports. Different study populations, metrics, baselines
+and compute budgets do not form one leaderboard. No transcript-backed claims are
+made about videos whose full captions were unavailable. Facts are summarized
+with links; research papers, course text and raw run transcripts are not bundled.
+
+The default three-review-round cap, builder counts, schema-2 admission fields,
+Pi-first policy and role allocations are **this project's operating choices**,
+not empirically optimal constants. A score of 9/10 is not a calibrated 90%
+correctness probability; a reproducible minority defect can outweigh a majority
+miss. The JSON checker verifies declarations/references, not real approval,
+provider availability, isolation, fresh contexts, fairness or acceptance.
+
+No end-to-end workshop, active-user installation, latency/quality improvement or
+universal GPT/Grok role ranking has been established by the package's local
+checks. Those require separately authorized trials and delivery verification.
 
 The repo now distributes these four skills only. It is not a fork of T3 Code or
 Pi, does not bundle other T Stack workflows, and does not imply endorsement by

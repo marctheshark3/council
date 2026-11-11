@@ -18,7 +18,10 @@
 - Worker-only versus integrated/package checks: [state each scope separately]
 - Failures / unresolved questions / smallest next action: [owner and bounded action]
 - Launches / repairs / remaining global budget: [counts; include replacements]
-- Time to useful evidence / integrated acceptance: [timestamp boundaries or unknown]
+- Time to useful evidence / integrated acceptance: [timestamp boundaries or unknown;
+  no accepted-result time for an unaccepted/unreviewed candidate]
+- Comparison purpose / baseline / resource and selection limits: [observed or absent;
+  one run is not a general configuration ranking]
 - Waiting / rework / integration effort: [observed, estimated or unknown]
 - Tokens / cost: [observed data source or unknown; no guessed allowance]
 - Parent handoff: [return to workshop final review if authorized; no implied Council pass]

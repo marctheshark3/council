@@ -189,9 +189,27 @@ and report when the available tools cannot enforce it.
 
 ## Review and report
 
-Give each delegate the request and relevant context. For review or feedback,
-keep their work read-only. Collect their responses and summarize the useful
-findings, disagreements, and recommended next steps.
+Give each delegate the same scoped request, artifact snapshot, contract and
+relevant evidence. Keep their work read-only and collect independent first-pass
+judgments before exposing peers' conclusions or a preferred answer. Fresh sessions
+and different providers help separate perspectives but do not prove independent
+errors. Disclose identity exposure, prior feedback and author/reviewer overlap.
+
+Verify findings against code, sources and authorized checks before reconciling.
+Retain a reproducible minority finding even when the other reviewers missed it;
+answer-voting research is not a license to vote away a demonstrated failure.
+Record stable finding IDs, affected snapshot/paths, supporting evidence and
+whether each is a new regression, pre-existing issue or out-of-scope suggestion.
+Deduplicate already answered findings; do not reward volume, tone or provider
+seniority. Report unresolved proof as pending rather than manufacturing consensus.
+
+After the initial pass, target the delta and affected dependencies, carrying valid
+evidence with a stated basis. Broaden review when impact cannot be bounded and
+count that scope honestly. Track new verified findings, false positives, repairs
+and rounds-to-acceptance. Stop low-value churn within the selected budget; do not
+turn the absence of new findings into a pass while required conditions are unmet.
+Use [references/evidence-and-limits.md](references/evidence-and-limits.md) when
+explaining this policy or making research/performance claims.
 
 For a code review, ask each delegate for a score out of 10 unless the selected
 rubric specifies a different scale. When using `council-rubric`, require its
@@ -230,9 +248,12 @@ fresh review of the affected scope. With an approved rubric, use its reopening,
 acceptance, disagreement and review-budget rules; stop accepted or blocked as
 those rules require instead of looping for enthusiasm. Do not average away a
 demonstrated failure or lower the bar after seeing the scores. Without a rubric,
-continue until all delegates are satisfied within the declared finite budget;
-report blockers at the limit rather than implying consensus or looping
-indefinitely. Respect user limits and access constraints in either mode.
+use scoped acceptance checks and a reviewer disposition rule declared before
+launch. Unanimity or a rising scalar score alone does not establish correctness.
+Stop accepted only when those conditions are met; otherwise report blockers at
+the budget/access limit instead of implying consensus or looping indefinitely.
+The default round cap is an operating choice, not a research-derived optimum.
+Respect user limits and access constraints in either mode.
 
 Do not let repeated reviews result in scope creep. It is your job to fight to
 keep scope limited.

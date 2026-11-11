@@ -36,9 +36,11 @@ supported host. Missing capabilities must be reported, not silently substituted.
 > implementation while the main agent keeps coding. Verify the integrated result.
 
 Choose models for the assignments rather than permanently assigning planning to
-one provider and building to another. Start with a main agent plus one worker.
-Keep writable workspaces isolated and one integrator responsible for the result.
-No automatic Council or duplicated whole-feature implementations.
+one provider and building to another. Start with a main agent plus one worker
+when there is a genuinely useful split. Identify independent work and freeze
+shared decisions/interfaces first; recommend single-agent execution when the
+useful steps are inseparable or sequential. Keep writable workspaces isolated and
+one integrator responsible for the result. No automatic Council or duplicated whole-feature implementations.
 
 ### Council Workshop: review → build → review
 
@@ -62,7 +64,7 @@ that has not been built. A rubric can guide either execution or review.
 > Council-review that exact revision.
 
 ```text
-Common brief + frozen plan/feature contracts
+Common brief + frozen task/plan/feature/evaluator
                     │
             Council plan review
                     │
@@ -104,6 +106,22 @@ all-Pi request does not add native-harness delegates; Council's existing GPT
 Discussing workflows, drafting rubrics or asking how a team could operate does
 not authorize launches. Explicitly selecting a workshop authorizes its declared
 review/build stages within the frozen scope and budget, not deployment or merge.
+
+## Research-informed, not research-certified
+
+The [source notes](UPSTREAM.md#research-basis-and-limits) distinguish practitioner
+methods, vendor engineering reports, preprints and peer-reviewed findings. Each
+skill also carries its own linked evidence/limitations reference. Research
+supports independent first passes, explicit criteria, task-appropriate parallelism
+and dependable candidate selection; it does not validate this exact composition,
+our default headcounts/round caps or any current GPT/Grok ranking.
+
+Operationally: verify findings rather than voting away bugs; record judge identity
+and order exposure; scope repeat review to changed behavior and dependencies; and
+measure accepted work, waits, integration and repairs. Declare whether a trial is
+useful delivery only, equal-budget quality or time to accepted quality. Equal
+launch caps/effort names do not prove equal compute, and a candidate's completion
+time is not its time to accepted integration. One feature is not a benchmark.
 
 ## Install
 
@@ -208,10 +226,20 @@ python3 skills/council-workshop/scripts/check_plan.py /path/to/local-plan.json
 
 The [bundled JSON example](skills/council-workshop/assets/team-trials.example.json)
 uses synthetic model IDs and approval references. It demonstrates structure only.
-The checker verifies shared snapshot/rubric IDs, typed budgets, explicit rosters
-and obvious identity/configuration collisions. It does not launch agents, verify
-approval truth, authenticate models, enforce isolation/budgets or accept a feature.
-Provider accounts, billing and delegation capability belong to your environment.
+Schema 2 requires frozen common task, plan, feature and evaluator IDs; explicit
+task-fit/trial reasoning, selection/resource/identity/order policy; independent
+first-pass, evidence-based resolution and delta/dependency recheck declarations;
+and a global review cap containing the phase slices. Teams must reference the
+same task/evaluator as well as snapshot/rubric, and review-task slot IDs must be
+unique across stages and separate from builder IDs. Typed budgets, explicit
+rosters and obvious configuration collisions are checked too.
+
+Schema 1 is rejected, not silently upgraded; follow the
+[migration notes](skills/council-workshop/references/team-trials.md#migrate-a-schema-1-plan-deliberately).
+The checker does not launch agents or prove task suitability, approval truth,
+fair resources, masking, fresh runtime contexts, model availability, physical
+isolation, runtime enforcement or feature acceptance. Provider accounts, billing
+and delegation capability belong to your environment.
 
 ## Local checks
 

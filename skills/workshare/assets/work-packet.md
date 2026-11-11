@@ -7,6 +7,9 @@
 - Base snapshot and input manifest: [commit or bounded immutable dirty snapshot]
 - Rubric / acceptance-check reference: [contract version or explicit task checks]
 - Dependencies / readiness evidence: [artifact revisions required before execution]
+- Independence / shared decisions: [why this packet can proceed; frozen interfaces/context]
+- Comparison purpose / timing boundaries if evaluated: [delivery only, fixed-resource quality,
+  or time to a common acceptance bar; do not invent resource equality]
 - Relevant context: [paths, interfaces, decisions, small source references]
 - Model / provider instance / harness / requested controls: [exact resolved IDs]
 - Capability and account limits: [supported controls; unknown quota; pending access]

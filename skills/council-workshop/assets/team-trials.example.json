@@ -1,8 +1,13 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "example": true,
   "mode": "team-trials",
   "base_snapshot": "synthetic-base-v1",
+  "task": {
+    "id": "export-work-v1",
+    "status": "frozen",
+    "approval": "Synthetic fixture only"
+  },
   "rubric": {
     "id": "feature-v1",
     "status": "frozen",
@@ -13,10 +18,31 @@
     "status": "frozen",
     "approval": "Synthetic fixture only"
   },
+  "parallelism": {
+    "independent_work": "UI and CSV serialization can be implemented against frozen fixtures.",
+    "shared_decisions": "Freeze the CSV interface and resource ownership before parallel writes.",
+    "trial_reason": "Compare ownership alternatives using the same executable export checks."
+  },
+  "evaluation": {
+    "id": "export-evaluation-v1",
+    "status": "frozen",
+    "approval": "Synthetic fixture only",
+    "selection_rule": "Feature-v1 candidate gates first; anchored quality then repair burden; no winner if none qualifies.",
+    "comparison_basis": "delivery-only",
+    "resource_policy": "Equal declared launch caps; actual time and compute remain observations, not matched-budget proof.",
+    "identity_policy": "disclosed",
+    "presentation_order": "Record candidate order and identity exposure; no blind-judging claim."
+  },
+  "review_policy": {
+    "independent_first_pass": true,
+    "finding_resolution": "evidence-not-vote",
+    "recheck_scope": "delta-and-dependencies"
+  },
   "budgets": {
     "max_active_builders": 4,
     "max_builder_launches": 6,
     "max_team_repairs": 1,
+    "max_review_rounds": 3,
     "plan_review_rounds": 1,
     "final_review_rounds": 1,
     "repair_review_rounds": 1
@@ -24,71 +50,59 @@
   "reviewers": {
     "plan": [
       {
-        "id": "review-a",
+        "id": "plan-review-a",
         "role": "reviewer",
         "model": "openai/fixture-reviewer",
         "harness": "pi",
         "provider_instance_id": "pi",
-        "options": {
-          "thinking": "high"
-        },
+        "options": {"thinking": "high"},
         "assignment": "Independent review"
       },
       {
-        "id": "review-b",
+        "id": "plan-review-b",
         "role": "reviewer",
         "model": "anthropic/fixture-reviewer",
         "harness": "pi",
         "provider_instance_id": "pi",
-        "options": {
-          "thinking": "high"
-        },
+        "options": {"thinking": "high"},
         "assignment": "Independent review"
       },
       {
-        "id": "review-c",
+        "id": "plan-review-c",
         "role": "reviewer",
         "model": "xai/fixture-reviewer",
         "harness": "pi",
         "provider_instance_id": "pi",
-        "options": {
-          "thinking": "high"
-        },
+        "options": {"thinking": "high"},
         "assignment": "Independent review"
       }
     ],
     "final": [
       {
-        "id": "review-a",
+        "id": "final-review-a",
         "role": "reviewer",
         "model": "openai/fixture-reviewer",
         "harness": "pi",
         "provider_instance_id": "pi",
-        "options": {
-          "thinking": "high"
-        },
+        "options": {"thinking": "high"},
         "assignment": "Independent review"
       },
       {
-        "id": "review-b",
+        "id": "final-review-b",
         "role": "reviewer",
         "model": "anthropic/fixture-reviewer",
         "harness": "pi",
         "provider_instance_id": "pi",
-        "options": {
-          "thinking": "high"
-        },
+        "options": {"thinking": "high"},
         "assignment": "Independent review"
       },
       {
-        "id": "review-c",
+        "id": "final-review-c",
         "role": "reviewer",
         "model": "xai/fixture-reviewer",
         "harness": "pi",
         "provider_instance_id": "pi",
-        "options": {
-          "thinking": "high"
-        },
+        "options": {"thinking": "high"},
         "assignment": "Independent review"
       }
     ]
@@ -98,6 +112,8 @@
       "id": "balanced",
       "base_snapshot": "synthetic-base-v1",
       "rubric_id": "feature-v1",
+      "task_id": "export-work-v1",
+      "evaluation_id": "export-evaluation-v1",
       "workspace_id": "isolated-balanced",
       "coordination": "lead-led",
       "members": [
@@ -107,9 +123,7 @@
           "model": "openai/fixture-lead",
           "harness": "pi",
           "provider_instance_id": "pi",
-          "options": {
-            "thinking": "high"
-          },
+          "options": {"thinking": "high"},
           "assignment": "Implement and integrate"
         },
         {
@@ -118,9 +132,7 @@
           "model": "xai/fixture-worker",
           "harness": "pi",
           "provider_instance_id": "pi",
-          "options": {
-            "thinking": "high"
-          },
+          "options": {"thinking": "high"},
           "assignment": "Own CSV writer and tests"
         }
       ]
@@ -129,6 +141,8 @@
       "id": "provider-preferred",
       "base_snapshot": "synthetic-base-v1",
       "rubric_id": "feature-v1",
+      "task_id": "export-work-v1",
+      "evaluation_id": "export-evaluation-v1",
       "workspace_id": "isolated-provider-preferred",
       "coordination": "lead-led",
       "members": [
@@ -138,9 +152,7 @@
           "model": "openai/fixture-lead",
           "harness": "pi",
           "provider_instance_id": "pi",
-          "options": {
-            "thinking": "high"
-          },
+          "options": {"thinking": "high"},
           "assignment": "Implement and integrate"
         },
         {
@@ -149,9 +161,7 @@
           "model": "xai/fixture-worker",
           "harness": "pi",
           "provider_instance_id": "pi",
-          "options": {
-            "thinking": "high"
-          },
+          "options": {"thinking": "high"},
           "assignment": "Own export feature implementation"
         }
       ]

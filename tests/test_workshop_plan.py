@@ -1,6 +1,5 @@
 """Exercise plan admission checks, not models or a scheduler."""
 
-import copy
 import json
 from pathlib import Path
 import subprocess
@@ -27,22 +26,45 @@ def plan():
                              ("provider-preferred", "Own export feature implementation")):
         teams.append({
             "id": name, "base_snapshot": "synthetic-base-v1", "rubric_id": "feature-v1",
+            "task_id": "export-work-v1", "evaluation_id": "export-evaluation-v1",
             "workspace_id": "isolated-" + name, "coordination": "lead-led",
             "members": [member(name + "-lead", "lead", "openai/fixture-lead", "Implement and integrate"),
                         member(name + "-worker", "worker", "xai/fixture-worker", assignment)],
         })
-    reviewers = [member("review-a", "reviewer", "openai/fixture-reviewer", "Independent review"),
-                 member("review-b", "reviewer", "anthropic/fixture-reviewer", "Independent review"),
-                 member("review-c", "reviewer", "xai/fixture-reviewer", "Independent review")]
+    reviewers = {
+        stage: [member(stage + "-review-" + name, "reviewer", provider + "/fixture-reviewer",
+                       "Independent review")
+                for name, provider in (("a", "openai"), ("b", "anthropic"), ("c", "xai"))]
+        for stage in ("plan", "final")
+    }
     return {
-        "schema_version": 1, "example": True, "mode": "team-trials",
+        "schema_version": 2, "example": True, "mode": "team-trials",
         "base_snapshot": "synthetic-base-v1",
+        "task": {"id": "export-work-v1", "status": "frozen", "approval": "Synthetic fixture only"},
         "rubric": {"id": "feature-v1", "status": "frozen", "approval": "Synthetic fixture only"},
         "plan_review": {"id": "design-v1", "status": "frozen", "approval": "Synthetic fixture only"},
+        "parallelism": {
+            "independent_work": "UI and CSV serialization can be implemented against frozen fixtures.",
+            "shared_decisions": "Freeze the CSV interface and resource ownership before parallel writes.",
+            "trial_reason": "Compare ownership alternatives using the same executable export checks.",
+        },
+        "evaluation": {
+            "id": "export-evaluation-v1", "status": "frozen", "approval": "Synthetic fixture only",
+            "selection_rule": "Feature-v1 candidate gates first; anchored quality then repair burden; no winner if none qualifies.",
+            "comparison_basis": "delivery-only",
+            "resource_policy": "Equal declared launch caps; actual time and compute remain observations, not matched-budget proof.",
+            "identity_policy": "disclosed",
+            "presentation_order": "Record candidate order and identity exposure; no blind-judging claim.",
+        },
+        "review_policy": {
+            "independent_first_pass": True,
+            "finding_resolution": "evidence-not-vote",
+            "recheck_scope": "delta-and-dependencies",
+        },
         "budgets": {"max_active_builders": 4, "max_builder_launches": 6,
-                    "max_team_repairs": 1, "plan_review_rounds": 1,
+                    "max_team_repairs": 1, "max_review_rounds": 3, "plan_review_rounds": 1,
                     "final_review_rounds": 1, "repair_review_rounds": 1},
-        "reviewers": {"plan": reviewers, "final": copy.deepcopy(reviewers)},
+        "reviewers": reviewers,
         "teams": teams,
     }
 
@@ -76,7 +98,13 @@ class WorkshopPlanTests(unittest.TestCase):
         data = plan()
         data["mode"] = "single-team"
         data["teams"] = data["teams"][:1]
+        del data["parallelism"]["trial_reason"]
         self.assertEqual(check(data).returncode, 0)
+
+    def test_schema_one_requires_explicit_upgrade(self):
+        data = plan()
+        data["schema_version"] = 1
+        self.assert_rejected(data, "schema_version must be 2")
 
     def test_mode_controls_candidate_count(self):
         data = plan()
@@ -86,16 +114,18 @@ class WorkshopPlanTests(unittest.TestCase):
         data["teams"] = data["teams"][:1]
         self.assert_rejected(data, "team-trials requires at least two teams")
 
-    def test_candidates_must_share_snapshot_and_rubric(self):
+    def test_candidates_must_share_frozen_input_references(self):
         for key, reason in (("base_snapshot", "same base_snapshot"),
-                            ("rubric_id", "same rubric")):
+                            ("rubric_id", "same rubric"),
+                            ("task_id", "same task"),
+                            ("evaluation_id", "same evaluation")):
             with self.subTest(field=key):
                 data = plan()
                 data["teams"][1][key] = "different"
                 self.assert_rejected(data, reason)
 
     def test_draft_or_unapproved_contracts_cannot_enter_execution(self):
-        for name in ("rubric", "plan_review"):
+        for name in ("task", "rubric", "plan_review", "evaluation"):
             for key, value in (("status", "draft"), ("approval", ""), ("approval", True)):
                 with self.subTest(contract=name, field=key, value=value):
                     data = plan()
@@ -109,7 +139,7 @@ class WorkshopPlanTests(unittest.TestCase):
                     data = plan()
                     data["budgets"][name] = value
                     self.assert_rejected(data, name)
-        for name in ("max_active_builders", "max_builder_launches", "plan_review_rounds", "final_review_rounds"):
+        for name in ("max_active_builders", "max_builder_launches", "max_review_rounds", "plan_review_rounds", "final_review_rounds"):
             data = plan()
             data["budgets"][name] = 0
             self.assert_rejected(data, name)
@@ -121,6 +151,62 @@ class WorkshopPlanTests(unittest.TestCase):
         data = plan()
         data["budgets"]["max_active_builders"] = 7
         self.assert_rejected(data, "max_active_builders")
+
+    def test_review_slices_fit_one_global_cap(self):
+        data = plan()
+        data["budgets"]["max_review_rounds"] = 2
+        self.assert_rejected(data, "review slices exceed max_review_rounds")
+        data["budgets"]["repair_review_rounds"] = 0
+        self.assertEqual(check(data).returncode, 0)
+
+    def test_parallel_work_and_trial_reason_are_explicit(self):
+        for field in ("independent_work", "shared_decisions", "trial_reason"):
+            for value in ("", None, True):
+                with self.subTest(field=field, value=value):
+                    data = plan()
+                    data["parallelism"][field] = value
+                    self.assert_rejected(data, "parallelism." + field)
+
+    def test_evaluation_rules_and_comparison_basis_are_declared(self):
+        for field in ("selection_rule", "resource_policy", "presentation_order"):
+            for value in ("", None, True):
+                with self.subTest(field=field, value=value):
+                    data = plan()
+                    data["evaluation"][field] = value
+                    self.assert_rejected(data, "evaluation." + field)
+        for field, values in (("comparison_basis", ("", "universal-model-ranking", None, [])),
+                              ("identity_policy", ("", "assume-blind", None, []))):
+            for value in values:
+                with self.subTest(field=field, value=value):
+                    data = plan()
+                    data["evaluation"][field] = value
+                    self.assert_rejected(data, "evaluation." + field)
+
+    def test_supported_comparison_and_identity_policies(self):
+        for basis in ("delivery-only", "equal-budget-quality", "time-to-accepted-quality"):
+            for identity in ("masked", "disclosed"):
+                with self.subTest(basis=basis, identity=identity):
+                    data = plan()
+                    data["evaluation"].update(comparison_basis=basis, identity_policy=identity)
+                    self.assertEqual(check(data).returncode, 0)
+
+    def test_review_requires_independent_evidence_based_delta_checks(self):
+        for field, values in (("independent_first_pass", (False, "true", None, 1)),
+                              ("finding_resolution", ("majority-vote", "", None)),
+                              ("recheck_scope", ("full-review-every-time", "", None))):
+            for value in values:
+                with self.subTest(field=field, value=value):
+                    data = plan()
+                    data["review_policy"][field] = value
+                    self.assert_rejected(data, "review_policy." + field)
+
+    def test_review_task_ids_cannot_be_reused_or_be_builders(self):
+        data = plan()
+        data["reviewers"]["final"][0]["id"] = data["reviewers"]["plan"][0]["id"]
+        self.assert_rejected(data, "review task id reused")
+        data = plan()
+        data["teams"][0]["members"][0]["id"] = data["reviewers"]["plan"][0]["id"]
+        self.assert_rejected(data, "review task id used by builder")
 
     def test_workspace_and_identity_collisions_are_rejected(self):
         for name in ("id", "workspace_id"):
@@ -189,7 +275,9 @@ class WorkshopPlanTests(unittest.TestCase):
 
     def test_malformed_inputs_fail_without_tracebacks(self):
         for data in (None, [], {"schema_version": 99}, {**plan(), "teams": [None]},
-                     {**plan(), "reviewers": None}, {**plan(), "budgets": []}):
+                     {**plan(), "reviewers": None}, {**plan(), "budgets": []},
+                     {**plan(), "parallelism": None}, {**plan(), "evaluation": []},
+                     {**plan(), "review_policy": True}):
             with self.subTest(data=data):
                 result = check(data)
                 self.assertEqual(result.returncode, 1, result.stderr)

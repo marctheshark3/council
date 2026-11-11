@@ -3,8 +3,9 @@
 
 Usage: python3 check_plan.py /path/to/local-plan.json
 Requires Python 3.10+ and the standard library only. Exit 0 for a structurally
-valid plan, 1 for invalid input. Approval truth, capability, physical isolation,
-runtime budgets and artifact acceptance must be verified separately.
+valid schema-2 plan, 1 for invalid input. Approval truth, task suitability,
+comparison fairness, capability, fresh contexts, physical isolation, runtime
+budgets and artifact acceptance must be verified separately.
 """
 
 import argparse
@@ -14,7 +15,7 @@ import sys
 
 
 POSITIVE_BUDGETS = ("max_active_builders", "max_builder_launches",
-                    "plan_review_rounds", "final_review_rounds")
+                    "max_review_rounds", "plan_review_rounds", "final_review_rounds")
 REPAIR_BUDGETS = ("max_team_repairs", "repair_review_rounds")
 
 
@@ -47,6 +48,10 @@ class Checks:
             self.errors.append(f"budgets.{name} must be an integer >= {minimum}")
             return None
         return value
+
+    def choice(self, value, choices, label):
+        if value not in choices:
+            self.errors.append(f"{label} must be one of {', '.join(choices)}")
 
     def roster(self, value, label, builders=False):
         if not isinstance(value, list) or not value:
@@ -99,11 +104,41 @@ def configuration(team, members):
                       sort_keys=True)
 
 
+def execution_contracts(checks, plan, mode):
+    """Require explicit policy declarations, not proof that a runtime honored them."""
+    task_id = checks.contract(plan.get("task"), "task")
+    parallelism = checks.object(plan.get("parallelism"), "parallelism")
+    for field in ("independent_work", "shared_decisions"):
+        checks.text(parallelism.get(field), "parallelism." + field)
+    if mode == "team-trials":
+        checks.text(parallelism.get("trial_reason"), "parallelism.trial_reason")
+
+    evaluation = checks.object(plan.get("evaluation"), "evaluation")
+    evaluation_id = checks.contract(evaluation, "evaluation")
+    for field in ("selection_rule", "resource_policy", "presentation_order"):
+        checks.text(evaluation.get(field), "evaluation." + field)
+    checks.choice(evaluation.get("comparison_basis"),
+                  ("delivery-only", "equal-budget-quality", "time-to-accepted-quality"),
+                  "evaluation.comparison_basis")
+    checks.choice(evaluation.get("identity_policy"), ("masked", "disclosed"),
+                  "evaluation.identity_policy")
+
+    review = checks.object(plan.get("review_policy"), "review_policy")
+    if review.get("independent_first_pass") is not True:
+        checks.errors.append("review_policy.independent_first_pass must be true")
+    checks.choice(review.get("finding_resolution"), ("evidence-not-vote",),
+                  "review_policy.finding_resolution")
+    checks.choice(review.get("recheck_scope"), ("delta-and-dependencies",),
+                  "review_policy.recheck_scope")
+    return task_id, evaluation_id
+
+
 def validate_plan(value):
     checks = Checks()
     plan = checks.object(value, "plan")
-    if type(plan.get("schema_version")) is not int or plan.get("schema_version") != 1:
-        checks.errors.append("schema_version must be 1")
+    if type(plan.get("schema_version")) is not int or plan.get("schema_version") != 2:
+        checks.errors.append("schema_version must be 2; upgrade the task, evaluation "
+                             "and review policies explicitly")
     if "example" in plan and type(plan["example"]) is not bool:
         checks.errors.append("example must be a boolean when present")
     mode = plan.get("mode")
@@ -112,14 +147,24 @@ def validate_plan(value):
     base = checks.text(plan.get("base_snapshot"), "base_snapshot")
     rubric_id = checks.contract(plan.get("rubric"), "rubric")
     checks.contract(plan.get("plan_review"), "plan_review")
+    task_id, evaluation_id = execution_contracts(checks, plan, mode)
     raw_budgets = checks.object(plan.get("budgets"), "budgets")
     budgets = {name: checks.budget(raw_budgets.get(name), name, 1)
                for name in POSITIVE_BUDGETS}
     budgets.update({name: checks.budget(raw_budgets.get(name), name, 0)
                     for name in REPAIR_BUDGETS})
+    slices = [budgets[name] for name in ("plan_review_rounds", "final_review_rounds",
+                                       "repair_review_rounds")]
+    if budgets["max_review_rounds"] is not None and all(value is not None for value in slices):
+        if sum(slices) > budgets["max_review_rounds"]:
+            checks.errors.append("review slices exceed max_review_rounds")
     reviewers = checks.object(plan.get("reviewers"), "reviewers")
+    review_task_ids = set()
     for stage in ("plan", "final"):
-        checks.roster(reviewers.get(stage), "reviewers." + stage)
+        for member in checks.roster(reviewers.get(stage), "reviewers." + stage):
+            if member["id"] in review_task_ids:
+                checks.errors.append(f"review task id reused: {member['id']}")
+            review_task_ids.add(member["id"])
 
     teams = plan.get("teams")
     if not isinstance(teams, list):
@@ -145,6 +190,10 @@ def validate_plan(value):
             checks.errors.append(f"{label} must use the same base_snapshot")
         if team.get("rubric_id") != rubric_id:
             checks.errors.append(f"{label} must use the same rubric")
+        if team.get("task_id") != task_id:
+            checks.errors.append(f"{label} must use the same task")
+        if team.get("evaluation_id") != evaluation_id:
+            checks.errors.append(f"{label} must use the same evaluation")
         if team.get("coordination") not in ("lead-led", "peer-team"):
             checks.errors.append(f"{label}.coordination must be lead-led or peer-team")
         members = checks.roster(team.get("members"), label + ".members", builders=True)
@@ -152,6 +201,8 @@ def validate_plan(value):
         for member in members:
             if member["id"] in builder_ids:
                 checks.errors.append(f"{label}: duplicate builder id {member['id']}")
+            if member["id"] in review_task_ids:
+                checks.errors.append(f"{label}: review task id used by builder: {member['id']}")
             builder_ids.add(member["id"])
         signature = configuration(team, members)
         if mode == "team-trials" and signature in signatures:
@@ -192,7 +243,8 @@ def main():
         return 1
     label = "synthetic example" if plan.get("example") else "plan"
     print(f"Valid structural {label}; not launch authorization, capability verification, "
-          "runtime isolation, budget enforcement or feature acceptance.")
+          "runtime isolation, budget enforcement or feature acceptance. Task suitability, "
+          "actual approvals, comparison fairness and fresh contexts remain unverified.")
     return 0
 
 

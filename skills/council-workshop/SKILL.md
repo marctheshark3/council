@@ -19,6 +19,13 @@ asking how Council and Workshare could fit together does not start delegates.
 Load `council-rubric`, `council` and `workshare` by skill name; report a missing
 companion rather than guessing instructions or traversing sibling package paths.
 
+Establish task fit before any launch: name independent work and the decisions,
+interfaces and mutable resources that must be shared or frozen. If the useful
+work is inseparable or inherently sequential, report the limit and recommend
+single-agent execution outside this workflow rather than adding ceremonial roles.
+Require a concrete value/uncertainty/selection rationale for duplicate whole-task
+work; capacity to spend more tokens is not sufficient.
+
 Select **single-team** unless the user explicitly chooses **team-trials**:
 
 - **Single-team:** freeze contracts, review the approach, execute one Workshare
@@ -58,6 +65,11 @@ an approach proof of working software. Record the user's selection or existing
 project authority for each frozen contract; keep unapproved drafts provisional.
 Do not silently invent approval or lower requirements after seeing a candidate.
 
+Freeze the common task/work-list and evaluator with stable IDs and approval
+references too. Every team must reference those same IDs, not just the same base
+and rubric. Record independent-work/shared-decision reasoning in the plan, with a
+trial rationale when trials are selected.
+
 Set the comparison rule before launch: required gates first, then the selected
 quality thresholds and the user's tradeoffs such as maintainability, waiting,
 repair burden and resource cost. Choose applicability and tie-breakers in advance.
@@ -67,12 +79,23 @@ checks to choose a provisional result, leaving final-review requirements pending
 until Council sees the integrated revision. Keep unknown measurements unknown;
 do not convert missing evidence to a pass or fabricate one joint score.
 
+Declare the comparison basis: useful delivery only, quality at fixed resources,
+or time to a common acceptance bar. Define the resource policy, identity masking
+or disclosure, presentation order and known evaluator checks before results.
+Mask labels and counterbalance order when feasible; record remaining exposure
+instead of assuming blind judging. For a coordination/configuration study,
+include a capable single-agent baseline or disclose its absence, preserve held-out
+cases and repeat matched tasks before generalizing. A one-feature delivery trial
+is not a model benchmark.
+
 ## 3. Allocate models, isolation and one global budget
 
 Read [references/team-trials.md](references/team-trials.md) for configurations,
-controlled comparisons and failure examples. Use Pi by default for builders and
-reviewers, resolving exact models, runnable instances and supported options for
-each role. Keep the active coordinator's actual harness visible; delegate build
+controlled comparisons, schema-2 admission and failure examples. Consult
+[references/evidence-and-limits.md](references/evidence-and-limits.md) when
+justifying the method or reporting research/performance claims. Use Pi by default
+for builders and reviewers, resolving exact models, runnable instances and
+supported options for each role. Keep the active coordinator's actual harness visible; delegate build
 leadership to Pi when an all-Pi run requires it. Choose workers with Workshare's
 routing policy and reviewers with Council's independent-provider policy. Honor
 explicit preferences without making one model permanently planner or builder.
@@ -114,21 +137,28 @@ python3 scripts/check_plan.py /path/to/local-plan.json
 Resolve this command relative to this skill's directory. Replace synthetic IDs
 and approval references; never launch the example. Use the checker for structural
 admission only: it checks shared inputs, declared budgets, roster fields and
-obvious configuration collisions. It does not authenticate models, verify approval
-truth, allocate isolated workspaces, enforce runtime permissions or launch agents.
-Require those checks independently. Do not claim successful admission is delivery.
+obvious configuration collisions, shared task/evaluator references, independent
+first-pass/evidence-resolution/recheck declarations, unique review-task slots and
+review slices within one global cap. Schema 1 is rejected; migrate explicitly as
+described in the reference rather than silently supplying approval or defaults.
+It does not prove task fit, approval truth, fair resources, masking, fresh runtime
+contexts, model availability, physical isolation, runtime enforcement or delivery.
+Require those checks independently. Revalidate after preflight changes and before
+releasing builders; do not claim successful admission is accepted delivery.
 
 ## 4. Convene preflight Council, then release build work
 
 Hand the selected contract, frozen brief/design snapshot, configuration plan,
 evidence and allocated review budget to `council`. Keep reviewers read-only and
-independent. Include review of the existing artifact when the task starts from
-one; consolidate its findings and the approach review into one prioritized work
+independent. Collect first-pass judgments before sharing peers' conclusions;
+resolve findings through evidence, not a vote that can erase a reproducible bug.
+Include review of the existing artifact when the task starts from one;
+consolidate its findings and the approach review into one prioritized work
 list, frozen identically for all teams before they fork. Treat baseline defects
 as repair inputs, not a requirement that the unmodified baseline already passes
 the final feature gates. Require concrete objections, missing proof and acceptance
-conditions, not a vote about a favorite provider. Reconcile evidence and address authorized
-plan gaps within the remaining budget. Freeze any approved contract change before
+conditions, not a vote about a favorite provider. Reconcile evidence and address
+authorized plan gaps within the remaining budget. Freeze any approved contract change before
 building, distribute the same clarification to every team, and retain history.
 
 Stop blocked if the plan-review stopping rule is not met, a named capability is
@@ -196,7 +226,12 @@ Do not pass plan-review or candidate-only evidence off as final integrated revie
 
 Repair only within authorized scope and remaining global budgets. Reopen affected
 criteria/gates and use a fresh scoped review task when permitted; do not reset a
-three-round budget for every revised commit. Stop accepted only when the frozen
+three-round budget for every revised commit. Identify and deduplicate findings
+across rounds, distinguish regressions from pre-existing/out-of-scope issues, and
+recheck the delta and affected dependencies. Broaden scope when impact is unclear,
+not as a routine hunt for old nits; retain failures and valid carry-forward proof.
+Track useful verified findings and repair/round costs, stopping low-value churn
+without declaring unmet gates passed. Stop accepted only when the frozen
 feature rules are satisfied, or blocked with the smallest next action otherwise.
 Keep acceptance separate from any later merge, deployment or publication decision.
 
@@ -220,3 +255,5 @@ the user separately authorizes publishing a sanitized example.
   no runtime scheduling or permission enforcement.
 - [assets/comparison.md](assets/comparison.md): per-candidate evidence, selection,
   integration provenance and final-review handoff.
+- [references/evidence-and-limits.md](references/evidence-and-limits.md): Primary
+  candidate-search, task-fit and convergence sources; unvalidated design choices.
