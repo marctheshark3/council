@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -104,7 +105,7 @@ class PackageTests(unittest.TestCase):
             self.assertEqual(install(destination).returncode, 0)
             workshop = destination / "council-workshop"
             result = subprocess.run(
-                ["python3", str(workshop / "scripts/check_plan.py"),
+                [sys.executable, str(workshop / "scripts/check_plan.py"),
                  str(workshop / "assets/team-trials.example.json")],
                 cwd=temporary, capture_output=True, text=True, timeout=10,
             )
