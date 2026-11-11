@@ -47,7 +47,10 @@ No automatic Council or duplicated whole-feature implementations.
 > feature. Stay within three total review rounds, including scoped rechecks.
 
 Use linked but distinct claims: the plan is suitable to attempt, and the final
-feature meets its acceptance contract. A plan review cannot pass tests of code
+feature meets its acceptance contract. Preflight can review an existing artifact
+as well as the approach; consolidate findings into the same frozen work list for
+every team. Baseline defects become repair inputs, not a demand that the old code
+already passes the final feature gates. A plan review cannot pass tests of code
 that has not been built. A rubric can guide either execution or review.
 
 ### Team trials: same task, different worksharing configurations

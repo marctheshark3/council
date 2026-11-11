@@ -5,6 +5,8 @@
 - Explicit invocation / selected mode: [single-team or explicitly selected team-trials]
 - Implementation/test authority / excluded effects: [reference; merge/deploy separate]
 - Common task / intended user outcome / constraints: [same feature for every team]
+- Preflight artifact findings / frozen shared work list: [same prioritized repairs
+  and clarifications for all teams; baseline defects are inputs, not final passes]
 - Base snapshot / input manifest: [commit or bounded immutable snapshot; dirty inputs explicit]
 - Baseline checks / environment / mutable resource ownership: [observations and limits]
 - Companion discovery / Pi delegation adapter: [actual available skills and controls]

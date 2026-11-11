@@ -122,8 +122,12 @@ Require those checks independently. Do not claim successful admission is deliver
 
 Hand the selected contract, frozen brief/design snapshot, configuration plan,
 evidence and allocated review budget to `council`. Keep reviewers read-only and
-independent. Require concrete objections, missing proof and acceptance conditions,
-not a vote about a favorite provider. Reconcile evidence and address authorized
+independent. Include review of the existing artifact when the task starts from
+one; consolidate its findings and the approach review into one prioritized work
+list, frozen identically for all teams before they fork. Treat baseline defects
+as repair inputs, not a requirement that the unmodified baseline already passes
+the final feature gates. Require concrete objections, missing proof and acceptance
+conditions, not a vote about a favorite provider. Reconcile evidence and address authorized
 plan gaps within the remaining budget. Freeze any approved contract change before
 building, distribute the same clarification to every team, and retain history.
 
