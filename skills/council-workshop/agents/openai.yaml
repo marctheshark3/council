@@ -1,0 +1,4 @@
+interface:
+  display_name: "Council Workshop"
+  short_description: "Review, build with Workshare teams, integrate and review again"
+  default_prompt: "Use $council-workshop for an explicitly requested rubric-driven plan review, Pi-first Workshare execution, integration and final Council review. Use one team by default; duplicate the same task across different isolated configurations only in explicitly selected team-trials mode. Freeze criteria and global budgets before launching."

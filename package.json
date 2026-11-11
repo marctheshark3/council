@@ -1,0 +1,14 @@
+{
+  "name": "@marctheshark3/council",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Pi-first multi-model review, worksharing and rubric-driven team trials",
+  "license": "MIT",
+  "keywords": ["pi-package", "agent-skills", "multi-agent"],
+  "pi": {
+    "skills": ["./skills"],
+    "extensions": [],
+    "prompts": [],
+    "themes": []
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "example": true,
+  "mode": "team-trials",
+  "base_snapshot": "synthetic-base-v1",
+  "rubric": {
+    "id": "feature-v1",
+    "status": "frozen",
+    "approval": "Synthetic fixture only"
+  },
+  "plan_review": {
+    "id": "design-v1",
+    "status": "frozen",
+    "approval": "Synthetic fixture only"
+  },
+  "budgets": {
+    "max_active_builders": 4,
+    "max_builder_launches": 6,
+    "max_team_repairs": 1,
+    "plan_review_rounds": 1,
+    "final_review_rounds": 1,
+    "repair_review_rounds": 1
+  },
+  "reviewers": {
+    "plan": [
+      {
+        "id": "review-a",
+        "role": "reviewer",
+        "model": "openai/fixture-reviewer",
+        "harness": "pi",
+        "provider_instance_id": "pi",
+        "options": {
+          "thinking": "high"
+        },
+        "assignment": "Independent review"
+      },
+      {
+        "id": "review-b",
+        "role": "reviewer",
+        "model": "anthropic/fixture-reviewer",
+        "harness": "pi",
+        "provider_instance_id": "pi",
+        "options": {
+          "thinking": "high"
+        },
+        "assignment": "Independent review"
+      },
+      {
+        "id": "review-c",
+        "role": "reviewer",
+        "model": "xai/fixture-reviewer",
+        "harness": "pi",
+        "provider_instance_id": "pi",
+        "options": {
+          "thinking": "high"
+        },
+        "assignment": "Independent review"
+      }
+    ],
+    "final": [
+      {
+        "id": "review-a",
+        "role": "reviewer",
+        "model": "openai/fixture-reviewer",
+        "harness": "pi",
+        "provider_instance_id": "pi",
+        "options": {
+          "thinking": "high"
+        },
+        "assignment": "Independent review"
+      },
+      {
+        "id": "review-b",
+        "role": "reviewer",
+        "model": "anthropic/fixture-reviewer",
+        "harness": "pi",
+        "provider_instance_id": "pi",
+        "options": {
+          "thinking": "high"
+        },
+        "assignment": "Independent review"
+      },
+      {
+        "id": "review-c",
+        "role": "reviewer",
+        "model": "xai/fixture-reviewer",
+        "harness": "pi",
+        "provider_instance_id": "pi",
+        "options": {
+          "thinking": "high"
+        },
+        "assignment": "Independent review"
+      }
+    ]
+  },
+  "teams": [
+    {
+      "id": "balanced",
+      "base_snapshot": "synthetic-base-v1",
+      "rubric_id": "feature-v1",
+      "workspace_id": "isolated-balanced",
+      "coordination": "lead-led",
+      "members": [
+        {
+          "id": "balanced-lead",
+          "role": "lead",
+          "model": "openai/fixture-lead",
+          "harness": "pi",
+          "provider_instance_id": "pi",
+          "options": {
+            "thinking": "high"
+          },
+          "assignment": "Implement and integrate"
+        },
+        {
+          "id": "balanced-worker",
+          "role": "worker",
+          "model": "xai/fixture-worker",
+          "harness": "pi",
+          "provider_instance_id": "pi",
+          "options": {
+            "thinking": "high"
+          },
+          "assignment": "Own CSV writer and tests"
+        }
+      ]
+    },
+    {
+      "id": "provider-preferred",
+      "base_snapshot": "synthetic-base-v1",
+      "rubric_id": "feature-v1",
+      "workspace_id": "isolated-provider-preferred",
+      "coordination": "lead-led",
+      "members": [
+        {
+          "id": "provider-preferred-lead",
+          "role": "lead",
+          "model": "openai/fixture-lead",
+          "harness": "pi",
+          "provider_instance_id": "pi",
+          "options": {
+            "thinking": "high"
+          },
+          "assignment": "Implement and integrate"
+        },
+        {
+          "id": "provider-preferred-worker",
+          "role": "worker",
+          "model": "xai/fixture-worker",
+          "harness": "pi",
+          "provider_instance_id": "pi",
+          "options": {
+            "thinking": "high"
+          },
+          "assignment": "Own export feature implementation"
+        }
+      ]
+    }
+  ]
+}

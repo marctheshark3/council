@@ -21,6 +21,10 @@ another project's weights, thresholds or readiness claims.
 - **Run with Council:** Load `council` by skill name only when the user explicitly
   asks to convene/run it, including "run council against rubric v1". Let Council
   select and coordinate reviewers; use this skill for their shared contract.
+- **Compose a workshop:** Load `council-workshop` by name for an explicitly
+  requested review/build/review run. Define linked plan-suitability and feature
+  contracts, share the same feature contract across trial teams, and keep the
+  claims and evidence separate. Mere workshop discussion does not launch agents.
 
 Use this workflow for repeatable project reviews, not every small edit or casual
 request for an opinion. Compose with the relevant domain skills and required
@@ -109,7 +113,9 @@ by majority vote. Reproduce disputed evidence; leave the affected result pending
 if it cannot be resolved. Retain an independently demonstrated failure.
 
 Set a review budget in rounds, time or another observable limit before launching
-reviewers. Stop **accepted** when the frozen rules are satisfied. Stop **blocked**
+reviewers. For a workshop, allocate plan/final/recheck slices from its one global
+budget, rather than restarting a full allowance per phase or candidate.
+Stop **accepted** when the frozen rules are satisfied. Stop **blocked**
 when the budget is exhausted, required evidence/access is unavailable, or a
 material decision needs the owner. Report the smallest next test or decision;
 do not keep convening reviewers until their language becomes enthusiastic.
