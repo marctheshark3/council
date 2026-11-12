@@ -18,6 +18,13 @@ retain raw sensitive evidence separately.
 | --- | --- | --- | --- | --- |
 | E1 | [revision/path/hash] | [command + exit status, measurement, or dated inspection] | [what was demonstrated] | [what it does not prove] |
 
+## Evaluator conditions
+
+- Identity / order / prior-feedback exposure: [actual conditions and bias limits]
+- Known-case or reference checks: [available, checked, mistakes or absent]
+- First-pass independence / later reconciliation: [state which this scorecard represents]
+- Verified findings / dissent / unresolved proof: [IDs and reproducible evidence, not a vote]
+
 ## Quality results
 
 Create a separate scorecard or separate rows for each required reviewer. Do not

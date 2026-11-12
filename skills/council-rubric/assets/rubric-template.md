@@ -37,6 +37,14 @@ acceptance even when the score is high.
 | --- | --- | --- | --- | --- | --- |
 | G1 | [yes/no] | [condition] | [observable threshold] | [test and snapshot/environment scope] | [changes] |
 
+## Evaluator safeguards
+
+- Known-good/bad cases / reference material / calibration limits: [available or absent]
+- Candidate identity policy / unavoidable exposure: [masked or disclosed; no false blind claim]
+- Presentation order / counterbalancing / prior-feedback limits: [freeze before results]
+- Independent first-pass judgments / factual-dispute resolution: [verify evidence; retain minority defects]
+- Score interpretation: [anchored judgment, not a correctness probability or certification]
+
 ## Stopping and disagreement policy
 
 - Acceptance: [required applicable gates pass; target and every floor met; remaining conditions]

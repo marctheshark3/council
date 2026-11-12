@@ -1,0 +1,25 @@
+# Work packet: [run / team / task]
+
+- Parent invocation and implementation authority: [reference; not mere discussion]
+- State / owner / runtime task ID: [ready, running, input-required, blocked,
+  completed, failed or cancelled; identity and ID when assigned]
+- Goal / non-goals: [one cohesive useful deliverable; excluded work]
+- Base snapshot and input manifest: [commit or bounded immutable dirty snapshot]
+- Rubric / acceptance-check reference: [contract version or explicit task checks]
+- Dependencies / readiness evidence: [artifact revisions required before execution]
+- Independence / shared decisions: [why this packet can proceed; frozen interfaces/context]
+- Comparison purpose / timing boundaries if evaluated: [delivery only, fixed-resource quality,
+  or time to a common acceptance bar; do not invent resource equality]
+- Relevant context: [paths, interfaces, decisions, small source references]
+- Model / provider instance / harness / requested controls: [exact resolved IDs]
+- Capability and account limits: [supported controls; unknown quota; pending access]
+- Workspace allocation receipt / sole writer: [actual runtime-provided isolation]
+- Owned changes / read-only inputs / forbidden effects: [bounded paths and resources]
+- Shared interfaces / artifact exchange: [versioned contract; no uncommitted reads]
+- Permissions actually enforced: [runtime controls; disclose instruction-only limits]
+- Nested delegation: [none, or explicitly allocated child slots and remaining budget]
+- Initial/repair launch budget / optional enforceable deadline: [finite limits]
+- Verification: [commands, fixtures, environment and expected results]
+- Escalate when: [missing context, contract conflict, unsafe dependency, authority gap]
+- Return: [artifact revision/manifest, checks and exit statuses, limitations,
+  changed dependencies, unresolved failures, concise summary; no private transcript]

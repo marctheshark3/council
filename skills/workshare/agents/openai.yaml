@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workshare"
+  short_description: "Share useful execution across models with Pi-first delegation"
+  default_prompt: "Use $workshare to split authorized execution between a productive main agent and bounded model-selected workers through Pi by default. Isolate writers, set finite budgets, and verify the integrated result; do not automatically launch Council or competing whole-feature teams."

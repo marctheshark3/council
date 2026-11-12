@@ -1,6 +1,6 @@
 ---
 name: council
-description: 'Convene multiple model providers when the user explicitly asks to "run council", "council review", or "ask the council" for review or feedback. Do not launch reviewers for discussion of Council or requests to define, assess or recheck a "council rubric" alone; use council-rubric for those. An explicit Council run against a rubric uses both skills.'
+description: 'Convene multiple model providers when the user explicitly asks to "run council", "council review", or "ask the council", or for a declared review stage in an explicitly invoked Council Workshop. Do not launch for discussion or rubric-only work; use council-rubric for those. Prefer Pi for all reviewers, preserve independent judgments, and stop within the selected finite budget.'
 ---
 
 # Council
@@ -14,6 +14,12 @@ against rubric v1", use both skills: keep Council's routing and reviewer policy,
 and give each reviewer the same frozen rubric, artifact snapshot and evidence.
 Do not resolve sibling skills through relative filesystem paths.
 
+Accept a review-stage handoff from `council-workshop` only with the recorded
+explicit combined invocation, stage contract, snapshot, roster and allocated
+budget. Treat that invocation as authority for its declared review stages, not
+as a reason to start builders from this skill. Keep plan suitability distinct
+from final feature acceptance. A plain `workshare` run does not authorize Council.
+
 ## Prepare the review
 
 Within existing implementation and test authorization, address outstanding PR
@@ -24,7 +30,9 @@ requested snapshot without altering it. If the user wants to discard the
 implementation and explore new ideas, skip fixes to code being replaced.
 
 Before launching reviewers, use the approved rubric's finite review budget or
-declare a finite run budget. If none is specified, allow at most three rounds:
+declare a finite run budget. Within a workshop, use its allocated stage slice
+and global ledger; do not reset the full budget for each phase or candidate.
+If none is specified, allow at most three rounds:
 the initial review plus two follow-ups, full or scoped. Record full rounds and
 scoped rechecks separately, but count both against this default budget. Stop
 earlier when acceptance is established or required evidence/access is unavailable;
@@ -43,15 +51,17 @@ Gemini Pro.
 ## Select the harness and reasoning
 
 Honor explicit user choices of model, harness, and reasoning level first.
-Otherwise prefer Pi when it offers the selected model and can run the delegate,
-with the additional Codex GPT delegate in opt-in `token-max` mode below.
-If Pi cannot run that model, use an available native harness for the same model
-and disclose the fallback. Do not silently replace a model, bypass an explicit
-harness choice, or change harnesses after a launch error; report the blocker.
+Otherwise use Pi as the default harness for every selected reviewer, with the
+additional explicitly requested Codex GPT delegate in opt-in `token-max` mode
+below. If Pi cannot run the chosen model or delegation is unavailable, report
+the blocker; do not automatically switch to a native harness. Use a non-Pi
+harness only for an explicit user choice or approved exception. Do not silently
+replace a model, bypass an all-Pi request, or change harnesses after a launch error.
 If you cannot reach three model providers, or a named member is unavailable,
 report it instead of substituting.
 
-In T3 Code, use `orchestrator_capabilities` to resolve the model, runnable
+In T3 Code, follow the host's capability-discovery, task lifecycle and cancellation
+rules. Use `orchestrator_capabilities` to resolve the model, runnable
 provider instance, and that exact model's supported options. Use the catalog's
 provider-qualified model ID when selecting Pi. Set `target.providerInstanceId`
 and `target.model` explicitly in each `delegate_task` call.
@@ -161,7 +171,8 @@ For a GPT model advertising Pi `max`, Codex `ultra` and both Codex service tiers
 | token-max fast | `{"thinking":"max"}` | `{"reasoningEffort":"ultra","serviceTier":"priority"}` |
 
 These are routing examples, not guarantees that every GPT model supports these
-levels. Rediscover each model/harness's options for every launch. Effort labels
+levels. Resolve each model/harness's options from the current capability catalog
+before launch; refresh that catalog only as the host permits. Effort labels
 across harnesses need not represent equivalent budgets. Report the GPT pair in
 separate review rows, such as "GPT Sol via Pi" and "GPT Sol via Codex", with
 separate scores and findings; never merge their scores or invent a joint score.
@@ -178,9 +189,27 @@ and report when the available tools cannot enforce it.
 
 ## Review and report
 
-Give each delegate the request and relevant context. For review or feedback,
-keep their work read-only. Collect their responses and summarize the useful
-findings, disagreements, and recommended next steps.
+Give each delegate the same scoped request, artifact snapshot, contract and
+relevant evidence. Keep their work read-only and collect independent first-pass
+judgments before exposing peers' conclusions or a preferred answer. Fresh sessions
+and different providers help separate perspectives but do not prove independent
+errors. Disclose identity exposure, prior feedback and author/reviewer overlap.
+
+Verify findings against code, sources and authorized checks before reconciling.
+Retain a reproducible minority finding even when the other reviewers missed it;
+answer-voting research is not a license to vote away a demonstrated failure.
+Record stable finding IDs, affected snapshot/paths, supporting evidence and
+whether each is a new regression, pre-existing issue or out-of-scope suggestion.
+Deduplicate already answered findings; do not reward volume, tone or provider
+seniority. Report unresolved proof as pending rather than manufacturing consensus.
+
+After the initial pass, target the delta and affected dependencies, carrying valid
+evidence with a stated basis. Broaden review when impact cannot be bounded and
+count that scope honestly. Track new verified findings, false positives, repairs
+and rounds-to-acceptance. Stop low-value churn within the selected budget; do not
+turn the absence of new findings into a pass while required conditions are unmet.
+Use [references/evidence-and-limits.md](references/evidence-and-limits.md) when
+explaining this policy or making research/performance claims.
 
 For a code review, ask each delegate for a score out of 10 unless the selected
 rubric specifies a different scale. When using `council-rubric`, require its
@@ -219,9 +248,12 @@ fresh review of the affected scope. With an approved rubric, use its reopening,
 acceptance, disagreement and review-budget rules; stop accepted or blocked as
 those rules require instead of looping for enthusiasm. Do not average away a
 demonstrated failure or lower the bar after seeing the scores. Without a rubric,
-continue until all delegates are satisfied within the declared finite budget;
-report blockers at the limit rather than implying consensus or looping
-indefinitely. Respect user limits and access constraints in either mode.
+use scoped acceptance checks and a reviewer disposition rule declared before
+launch. Unanimity or a rising scalar score alone does not establish correctness.
+Stop accepted only when those conditions are met; otherwise report blockers at
+the budget/access limit instead of implying consensus or looping indefinitely.
+The default round cap is an operating choice, not a research-derived optimum.
+Respect user limits and access constraints in either mode.
 
 Do not let repeated reviews result in scope creep. It is your job to fight to
 keep scope limited.
